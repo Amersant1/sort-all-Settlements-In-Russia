@@ -29,18 +29,23 @@ import datetime
 
 import time
 from AdrKoord import get_coordinates
-punkts=Session.query(Settlement).all()
-try:
+def __main__():
+    punkts=Session.query(Settlement).all()
+    try:
 
-    for punkt in punkts:
-            if int(punkt.Latitude)==0 and int(punkt.Longitude)==0:
-                name=punkt.Name
-                coordinates=get_coordinates(name)
-                latitude=coordinates["latitude"]
-                longitude=coordinates["longitude"]
-                Session.query(Settlement).filter(Settlement.Name==name).update({"Longitude":longitude,"Latitude":latitude})
-                time.sleep(0.5)
-except Exception as err:
-    print (err)
-finally:
-    Session.commit()
+        for punkt in punkts:
+                if int(punkt.Latitude)==0 and int(punkt.Longitude)==0:
+                    name=punkt.Name
+                    coordinates=get_coordinates(name)
+                    latitude=coordinates["latitude"]
+                    longitude=coordinates["longitude"]
+                    Session.query(Settlement).filter(Settlement.Name==name).update({"Longitude":longitude,"Latitude":latitude})
+                    time.sleep(0.5)
+    except Exception as err:
+        print (err)
+        time.sleep(10)
+
+    finally:
+        Session.commit()
+        __main__()
+__main__()
